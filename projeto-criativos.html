@@ -1,0 +1,1345 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <link rel="icon" type="image/png" href="assets/#FF007F.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projeto — Criativos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* ============================================================
+     🎨 PALETA DE CORES — mantenha igual ao portfolio principal
+  ============================================================ */
+      :root {
+        --bg: #d6d6d6;
+        --bg2: #dadada;
+        --bg3: #d1d1d1;
+        --text: #000000;
+        --muted: #5a5a5a;
+        --accent: #e8432a;
+        --accent2: #ff7c5c;
+        --pitaya: #c9427a;
+        --pitaya2: #f072a8;
+        --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(255, 255, 255, 0.18);
+        --font-head: "Syne", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+      }
+
+      /* ============================================================
+     🔧 CONFIGURAÇÃO DESTA PÁGINA
+     Altere as variáveis abaixo para customizar este projeto.
+     Use --accent para projetos de engenharia,
+     ou --pitaya para projetos Pitaya Design.
+  ============================================================ */
+      :root {
+        --project-color: var(--accent); /* cor principal deste projeto */
+      }
+      /* ============================================================ */
+
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* CURSOR */
+      #cursor {
+        width: 12px;
+        height: 12px;
+        background: var(--project-color);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.15s ease;
+      }
+      #cursor-follower {
+        width: 36px;
+        height: 36px;
+        border: 1px solid rgba(232, 67, 42, 0.5);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transition:
+          left 0.08s,
+          top 0.08s,
+          transform 0.2s;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 3rem;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-logo img {
+        max-height: 36px;
+        width: auto;
+        display: block;
+        object-fit: contain;
+      }
+      .nav-logo {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.82rem;
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-back:hover {
+        color: var(--text);
+      }
+      .nav-back svg {
+        transition: transform 0.2s;
+      }
+      .nav-back:hover svg {
+        transform: translateX(-3px);
+      }
+
+      /* HERO DO PROJETO */
+      .project-hero {
+        min-height: 60vh;
+        padding: 10rem 3rem 4rem;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.12;
+        animation: float 8s ease-in-out infinite;
+      }
+      .orb1 {
+        width: 500px;
+        height: 500px;
+        background: var(--project-color);
+        top: -150px;
+        right: -100px;
+      }
+      .orb2 {
+        width: 250px;
+        height: 250px;
+        background: var(--project-color);
+        bottom: 0;
+        left: 100px;
+        animation-delay: -4s;
+        opacity: 0.07;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+          );
+        background-size: 60px 60px;
+      }
+
+      .project-eyebrow {
+        font-size: 0.75rem;
+        font-weight: 400;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        transform: translateY(16px);
+        animation: fadeUp 0.7s ease forwards 0.2s;
+      }
+      .project-title {
+        font-family: var(--font-head);
+        font-weight: 800;
+        font-size: clamp(2.5rem, 6vw, 5.5rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        transform: translateY(24px);
+        animation: fadeUp 0.8s ease forwards 0.35s;
+      }
+      .project-title span {
+        color: var(--project-color);
+      }
+
+      .project-meta-bar {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        transform: translateY(16px);
+        animation: fadeUp 0.7s ease forwards 0.55s;
+        flex-wrap: wrap;
+      }
+      .meta-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .meta-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .meta-value {
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* CONTENT SECTIONS */
+      .content-wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 3rem 6rem;
+      }
+
+      /* ── IMAGEM PRINCIPAL (capa/banner) ── */
+      .img-hero {
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--bg2);
+        margin-bottom: 5rem;
+        aspect-ratio: 16/7;
+        position: relative;
+      }
+      /*
+    🖼️ IMAGEM PRINCIPAL:
+    Coloque a URL ou caminho da sua imagem no src abaixo.
+    Exemplo: src="imagens/projeto-capa.jpg"
+  */
+      .img-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      /* Placeholder exibido enquanto não há imagem */
+      .img-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        background: var(--bg2);
+        color: var(--muted);
+        font-size: 0.82rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      .img-placeholder svg {
+        opacity: 0.3;
+      }
+
+      /* GRID DE CONTEÚDO */
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 5rem;
+        margin-bottom: 5rem;
+        align-items: start;
+      }
+
+      .section-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .section-label::before {
+        content: "";
+        display: block;
+        width: 30px;
+        height: 1px;
+        background: var(--muted);
+      }
+
+      .sticky-sidebar {
+        position: sticky;
+        top: 7rem;
+      }
+      .sidebar-block {
+        margin-bottom: 2.5rem;
+      }
+      .sidebar-block h4 {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+      }
+      .sidebar-block p {
+        font-size: 0.85rem;
+        font-weight: 300;
+        line-height: 1.7;
+        color: rgba(0, 0, 0, 0.65);
+      }
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .tag {
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.3rem 0.75rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+
+      .main-content h2 {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 1.8rem;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        margin-bottom: 1.25rem;
+      }
+      .main-content h3 {
+        font-family: var(--font-head);
+        font-weight: 600;
+        font-size: 1.2rem;
+        letter-spacing: -0.02em;
+        margin-top: 2.5rem;
+        margin-bottom: 0.75rem;
+        color: var(--text);
+      }
+      .main-content p {
+        font-size: 0.97rem;
+        font-weight: 300;
+        line-height: 1.85;
+        color: rgba(0, 0, 0, 0.65);
+        margin-bottom: 1.25rem;
+      }
+      .main-content ul {
+        list-style: none;
+        margin-bottom: 1.25rem;
+      }
+      .main-content ul li {
+        font-size: 0.95rem;
+        font-weight: 300;
+        line-height: 1.7;
+        color: rgba(0, 0, 0, 0.65);
+        padding: 0.4rem 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .main-content ul li::before {
+        content: "→";
+        color: var(--project-color);
+        font-weight: 400;
+        flex-shrink: 0;
+        margin-top: 0.05rem;
+      }
+
+      /* ── GALERIA DE IMAGENS ── */
+      .gallery-section {
+        margin-bottom: 5rem;
+      }
+      .gallery-section .section-label {
+        margin-bottom: 2rem;
+      }
+
+      /*
+    🖼️ GALERIA:
+    Cada .gallery-item contém um <img> com src="..." para inserir sua imagem.
+    Você pode adicionar ou remover blocos .gallery-item livremente.
+    Os layouts disponíveis são:
+      .gallery-grid-2   → 2 colunas iguais
+      .gallery-grid-3   → 3 colunas iguais
+      .gallery-full     → largura total (1 imagem grande)
+    Use a classe .tall no .gallery-item para imagens mais altas (2:3).
+  */
+      .gallery-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      .gallery-grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      .gallery-full {
+        margin-bottom: 1rem;
+      }
+
+      .gallery-item {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--bg2);
+        aspect-ratio: 4/3;
+        position: relative;
+        transition: border-color 0.3s;
+      }
+      .gallery-item:hover {
+        border-color: var(--border-hover);
+      }
+      .gallery-item.tall {
+        aspect-ratio: 2/3;
+      }
+      .gallery-item.wide {
+        aspect-ratio: 16/9;
+      }
+      .gallery-full .gallery-item {
+        aspect-ratio: 21/9;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+      }
+      .gallery-item:hover img {
+        transform: scale(1.03);
+      }
+
+      /* Placeholder da galeria */
+      .gallery-item .img-placeholder {
+        position: absolute;
+        inset: 0;
+        font-size: 0.72rem;
+      }
+      .gallery-item img[src=""] + .img-placeholder,
+      .gallery-item img:not([src]) + .img-placeholder {
+        display: flex;
+      }
+
+      /* LEGENDA */
+      .img-caption {
+        font-size: 0.75rem;
+        color: var(--muted);
+        text-align: center;
+        margin-top: 0.5rem;
+        letter-spacing: 0.05em;
+      }
+
+      /* RESULTADOS / MÉTRICAS */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin: 3rem 0;
+      }
+      .metric-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+      }
+      .metric-number {
+        font-family: var(--font-head);
+        font-weight: 800;
+        font-size: 2.2rem;
+        line-height: 1;
+        color: var(--project-color);
+      }
+      .metric-label {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.4rem;
+        line-height: 1.4;
+      }
+
+      /* PRÓXIMO PROJETO */
+      .next-project {
+        border-top: 1px solid var(--border);
+        padding: 4rem 3rem;
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .next-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.5rem;
+      }
+      .next-title {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+      .btn-next {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.8rem;
+        background: transparent;
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 400;
+        letter-spacing: 0.03em;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        text-decoration: none;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .btn-next:hover {
+        border-color: var(--border-hover);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      /* FOOTER */
+      footer {
+        padding: 2rem 3rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-weight: 300;
+      }
+
+      /* REVEAL */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ── SKIP LINK ───────────────────────────────────── */
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        z-index: 10000;
+        padding: 0.75rem 1.5rem;
+        background: var(--text);
+        color: var(--bg);
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 500;
+        border-radius: 0 0 8px 8px;
+        text-decoration: none;
+        transition: top 0.2s;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+
+      /* ── FOCUS VISIBLE ────────────────────────────────── */
+      :focus-visible {
+        outline: 2px solid var(--project-color);
+        outline-offset: 2px;
+      }
+
+      /* ── FIXED NAV OFFSET ─────────────────────────────── */
+      section[id],
+      .project-hero,
+      .content-wrap {
+        scroll-margin-top: 5rem;
+      }
+
+      /* ── REDUCED MOTION ───────────────────────────────── */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        nav {
+          padding: 1rem 1.25rem;
+        }
+        .project-hero {
+          padding: 8rem 1.25rem 3rem;
+        }
+        .content-wrap {
+          padding: 0 1.25rem 4rem;
+        }
+        .content-grid {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+        .sticky-sidebar {
+          position: static;
+        }
+        .gallery-grid-2,
+        .gallery-grid-3 {
+          grid-template-columns: 1fr;
+        }
+        .metrics-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .next-project {
+          flex-direction: column;
+          gap: 1.5rem;
+          padding: 3rem 1.25rem;
+          align-items: flex-start;
+        }
+        footer {
+          padding: 1.5rem 1.25rem;
+        }
+        .nav-logo img {
+          max-height: 28px;
+        }
+        .project-meta-bar {
+          gap: 1.25rem;
+        }
+      }
+      /* LIGHTBOX */
+      .lb-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.88);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.25s;
+        pointer-events: none;
+      }
+      .lb-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .lb-box {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .lb-box img {
+        max-width: 90vw;
+        max-height: 82vh;
+        object-fit: contain;
+        border-radius: 10px;
+        display: block;
+      }
+      .lb-caption {
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 0.06em;
+        text-align: center;
+      }
+      .lb-close {
+        position: fixed;
+        top: 1.25rem;
+        right: 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border-radius: 999px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+        line-height: 1;
+        font-family: var(--font-body);
+      }
+      .lb-close:hover {
+        background: rgba(255, 255, 255, 0.22);
+      }
+      .gallery-item {
+        cursor: zoom-in;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <!-- =====================================================
+     NAV
+===================================================== -->
+    <nav>
+      <!--
+    🖼️ LOGO: mesmo src do portfolio principal
+  -->
+      <a class="nav-logo" href="lucas_mendes_portfolio.html">
+        <img
+          src="SEU-LOGO-AQUI.png"
+          alt="Lucas Mendes"
+          onerror="
+            this.style.display = 'none';
+            this.nextElementSibling.style.display = 'block';
+          "
+        />
+        <span
+          style="
+            display: none;
+            font-family: var(--font-head);
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+            color: var(--text);
+          "
+        >
+          Lucas<span style="color: var(--accent)">.</span>
+        </span>
+      </a>
+
+      <a class="nav-back" href="lucas_mendes_portfolio.html">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path
+            d="M10 7H4M4 7L7 4M4 7L7 10"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Voltar ao portfólio
+      </a>
+    </nav>
+
+    <main id="main-content">
+      <!-- =====================================================
+     HERO DO PROJETO
+     ✏️ Edite: título, categoria, cliente, ano, serviço
+===================================================== -->
+      <div class="project-hero">
+        <div class="hero-grid"></div>
+        <div class="hero-orb orb1"></div>
+        <div class="hero-orb orb2"></div>
+
+        <!-- ✏️ Categoria / breadcrumb -->
+        <div class="project-eyebrow">Design Gráfico - Design de Criativos</div>
+
+        <!-- ✏️ Título do projeto -->
+        <h1 class="project-title">Criativos<br /><span>Design</span></h1>
+
+        <!-- ✏️ Metadados: cliente, ano, serviço, status -->
+        <div class="project-meta-bar">
+          <div class="meta-item">
+            <span class="meta-label">Cliente</span>
+            <span class="meta-value">Varios</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Ano</span>
+            <span class="meta-value">2025 ~ 2026</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Serviço</span>
+            <span class="meta-value">Graphic Design</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Status</span>
+            <span class="meta-value" style="color: var(--project-color)"
+              >Concluído</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================
+     CONTEÚDO PRINCIPAL
+===================================================== -->
+      <div class="content-wrap">
+        <!-- ── IMAGEM PRINCIPAL (capa) ───────────────────── -->
+        <div class="img-hero reveal">
+          <!--
+      🖼️ IMAGEM CAPA:
+      Substitua o src="" pelo caminho da sua imagem principal.
+      Exemplo: src="imagens/projeto-capa.jpg"
+      O bloco .img-placeholder some automaticamente quando há imagem.
+    -->
+          <img
+            src="assets/CRIATIVOS-ASSETS/cover-criativos.jpg"
+            alt="Imagem principal do projeto"
+            onerror="this.style.display = 'none'"
+            style="display: none"
+          />
+          <div class="img-placeholder">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <rect
+                x="4"
+                y="8"
+                width="32"
+                height="24"
+                rx="3"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="14"
+                cy="18"
+                r="3"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+              <path
+                d="M4 28l8-6 6 5 6-4 12 7"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span> Vista Frontal</span>
+          </div>
+        </div>
+
+        <!-- ── DESCRIÇÃO + SIDEBAR ───────────────────────── -->
+        <div class="content-grid">
+          <!-- SIDEBAR -->
+          <div class="sticky-sidebar reveal">
+            <!-- ✏️ Escopo -->
+            <div class="sidebar-block">
+              <div class="section-label">Escopo</div>
+              <div class="tag-list">
+                <span class="tag">Social Media Design</span>
+                <span class="tag">Posts Institucionais</span>
+                <span class="tag">Carrosséis</span>
+                <span class="tag">Stories</span>
+                <span class="tag">Capas de Destaques</span>
+                <span class="tag">Banners Digitais</span>
+                <span class="tag">Criativos para Meta Ads</span>
+                <span class="tag">Landing Pages</span>
+                <span class="tag">Campanhas Promocionais</span>
+                <span class="tag">Comunicação Visual Digital</span>
+                <span class="tag">Planejamento de Conteúdo</span>
+                <span class="tag">Estratégia de Comunicação</span>
+                <span class="tag">Copywriting</span>
+                <span class="tag">Gestão de Campanhas</span>
+              </div>
+            </div>
+
+            <!-- ✏️ Sobre o cliente -->
+            <div class="sidebar-block">
+              <div class="section-label">Sobre o cliente</div>
+              <p>
+                Este projeto reúne trabalhos desenvolvidos para diferentes
+                mercado, incluindo restaurantes, cafeterias, alimentação
+                artesanal, eventos e e-commerce.
+              </p>
+              <p>
+                Cada cliente possuía objetivos específicos de comunicação,
+                exigindo soluções visuais personalizadas e alinhadas à
+                identidade de cada negócio.
+              </p>
+              <p>
+                O trabalho foi desenvolvido com foco em fortalecer a presençad
+                igital das marcas, aumentar a percepção de valor e criar uma
+                comunicação consistente em todos os pontos de contato.
+              </p>
+            </div>
+
+            <!-- ✏️ Desafio -->
+            <div class="sidebar-block">
+              <div class="section-label">Desafio</div>
+              <p>
+                Desenvolver criativos capazes de equilibrar identidade visual,
+                posicionamento de marca e performance, garantindo que cada
+                publicação contribuísse para a construção de autoridade e
+                geração de resultados.
+              </p>
+              <p>
+                O desafio consistia em criar materiais visualmente atrativos sem
+                abrir mão da estratégia, mantendo consistência entre campanhas,
+                conteúdos orgânicos e anúncios patrocinados.
+              </p>
+            </div>
+          </div>
+
+          <!-- TEXTO PRINCIPAL -->
+          <div class="main-content reveal">
+            <h2>Sobre o projeto</h2>
+
+            <!-- ✏️ Texto principal — edite os parágrafos abaixo -->
+            <p>
+              Este projeto apresenta uma coleção de criativos desenvolvidos para
+              diferentes empresas e segmentos ao longo da minha trajetória
+              profissional.
+            </p>
+            <p>
+              Mais do que produzir peças gráficas isoladas, o objetivo foi
+              construir sistemas de comunicação visual capazes de fortalecer
+              marcas, transmitir credibilidade e gerar conexão com o público.
+            </p>
+            <p>
+              Cada criativo foi desenvolvido considerando posicionamento,
+              identidade visual, comportamento do consumidor e objetivos
+              comerciais específicos, garantindo que design e estratégia
+              trabalhassem em conjunto.
+            </p>
+            <p>
+              A combinação entre branding, copywriting e tráfego pago permitiu
+              criar campanhas visualmente consistentes e preparadas tanto para
+              fortalecimento de marca quanto para geração de resultados.
+            </p>
+
+            <!-- ✏️ Subtítulo de seção (opcional) -->
+            <h3>O processo</h3>
+            <p>
+              Cada projeto foi conduzido a partir de uma metodologia
+              estratégica, adaptada às necessidades de cada cliente e segmento.
+
+              <!-- ✏️ Lista de entregas (opcional) -->
+            </p>
+
+            <ul>
+              <li>Diagnóstico da marca e do público-alvo</li>
+              <li>Definição dos objetivos de comunicação</li>
+              <li>Planejamento de conteúdo e campanhas</li>
+              <li>Desenvolvimento dos conceitos visuais</li>
+              <li>Criação dos criativos e peças digitais</li>
+              <li>Desenvolvimento de copies e chamadas estratégicas</li>
+              <li>Adaptação para campanhas patrocinadas</li>
+              <li>Monitoramento de desempenho e otimizações</li>
+            </ul>
+
+            <!-- ✏️ Métricas / resultados (opcional — remova se não usar) -->
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <div class="metric-number">30+</div>
+                <div class="metric-label">Criativos desenvolvidos</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-number">5+</div>
+                <div class="metric-label">Marcas atendidas</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-number">5</div>
+                <div class="metric-label">Segmentos de mercado</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── GALERIA DE IMAGENS ─────────────────────────
+       Instruções:
+       - Substitua os src="" em cada <img> pela sua imagem
+       - Remova blocos .gallery-item que não usar
+       - Adicione novos blocos copiando um existente
+       - Use .gallery-grid-2 (2 col), .gallery-grid-3 (3 col), .gallery-full (1 col)
+  ───────────────────────────────────────────────── -->
+        <div class="gallery-section reveal">
+          <div class="section-label">Galeria do projeto</div>
+
+          <!-- Linha 1: imagem grande -->
+          <div class="gallery-full">
+            <div class="gallery-item wide">
+              <!-- 🖼️ src="" → coloque o caminho da imagem -->
+              <img
+                src="assets/CRIATIVOS-ASSETS/1.png"
+                alt="Quintal de Minas - Pascoa"
+              />
+            </div>
+            <p class="img-caption">Quintal de Minas - Pascoa</p>
+          </div>
+
+          <!-- Linha 2: 3 colunas -->
+          <div class="gallery-grid-3">
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Black and White We Are Open Instagram Story_20250724_104548_0000.png"
+                  alt="Emporio Arabe - Stories"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Stories</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Black and White We Are Open Instagram Story_20250724_104548_0002.png"
+                  alt="Emporio Arabe - Stories"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Stories</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/ChatGPT Image 13 de jun. de 2025, 12_09_15.png"
+                  alt="Quintal de Minas - Mockups"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Quintal de Minas - Mockups</p>
+            </div>
+          </div>
+
+          <div class="gallery-grid-3">
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/ChatGPT Image 13 de jun. de 2025, 12_23_20.png"
+                  alt="Quintal de Minas - Mockups"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Quintal de Minas - Mockups</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/ChatGPT Image 18 de jun. de 2025, 17_53_12.png"
+                  alt="Emporio Arabe - Mockups"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Mockups</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/ChatGPT Image 18 de jun. de 2025, 17_53_25.png"
+                  alt="Emporio Arabe - Mockups"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Mockups</p>
+            </div>
+          </div>
+          <div class="gallery-grid-3">
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/ChatGPT Image 19 de jun. de 2025, 14_50_57.png"
+                  alt="Emporio Arabe - Mockups"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Mockups</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Frete grátis delivery vermelho story_20250730_103444_0001.png"
+                  alt="Emporio Arabe - Stories"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Stories</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/IGDownloader.App_453330008_18452844946057892_6481245981567539610_n.jpg"
+                  alt="Emporio Arabe - Evento"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Evento</p>
+            </div>
+          </div>
+          <div class="gallery-grid-3">
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Instagram Story Oferta de Dia dos Namorados Simples Rosa e Branco.png"
+                  alt="Emporio Arabe - Promoção"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Promoção</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Mockuuups iPhone 16 mockup in a woman's hand with concrete backdrop.jpeg"
+                  alt="Gooday - Mockups"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Gooday - Mockups</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/nano-banana-2_a_lush_3d_render_of_Tenho_esses_dois_modelos_de_mockups_gerados_por_ia_porem_exi-0.jpg"
+                  alt="Quintal de Minas - Mockups"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Quintal de Minas - Mockups</p>
+            </div>
+          </div>
+          <div class="gallery-grid-3">
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Promoção.png"
+                  alt="Emporio Arabe - Promoção"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Promoção</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Red Green Classic Watercolor Illustrated Strawberry Organic Jam Food Product Label.jpg"
+                  alt="Quintal de Minas - Rótulo"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Quintal de Minas - Rótulo</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/rodizio - Copia.png"
+                  alt="Emporio Arabe - Evento"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Evento</p>
+            </div>
+          </div>
+          <div class="gallery-grid-3">
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Take a look at my Canva design! (2).png"
+                  alt="Emporio Arabe - Comunicado"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Comunicado</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Take a look at my Canva design! (4).png"
+                  alt="Emporio Arabe - Stories"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Stories</p>
+            </div>
+            <div>
+              <div class="gallery-item">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/Take a look at my Canva design! (7).png"
+                  alt="Emporio Arabe - Evento"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <p class="img-caption">Emporio Arabe - Evento</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <span>© 2026 Lucas Mendes</span>
+      <span style="color: var(--muted)">Passa Quatro, MG</span>
+    </footer>
+
+    <script>
+      // ── CURSOR ──────────────────────────────────────
+      const cursor = document.getElementById("cursor");
+      const follower = document.getElementById("cursor-follower");
+      let mx = 0,
+        my = 0,
+        fx = 0,
+        fy = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        cursor.style.left = mx - 6 + "px";
+        cursor.style.top = my - 6 + "px";
+      });
+      (function anim() {
+        fx += (mx - fx - 18) * 0.12;
+        fy += (my - fy - 18) * 0.12;
+        follower.style.left = fx + "px";
+        follower.style.top = fy + "px";
+        requestAnimationFrame(anim);
+      })();
+      document.querySelectorAll("a,.gallery-item").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.transform = "scale(2.5)";
+          follower.style.borderColor = "transparent";
+        });
+        el.addEventListener("mouseleave", () => {
+          cursor.style.transform = "scale(1)";
+          follower.style.borderColor = "rgba(232,67,42,0.4)";
+        });
+      });
+
+      // ── REVEAL ON SCROLL ────────────────────────────
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+      // ── MOSTRAR IMAGENS QUE CARREGARAM ──────────────
+      document
+        .querySelectorAll(".gallery-item img, .img-hero img")
+        .forEach((img) => {
+          if (img.src && img.src !== window.location.href) {
+            img.style.display = "block";
+            img.addEventListener("error", () => {
+              img.style.display = "none";
+            });
+          }
+        });
+
+      // ── NAVBAR SCROLL ────────────────────────────────
+      const nav = document.querySelector("nav");
+      window.addEventListener("scroll", () => {
+        nav.style.borderBottomColor =
+          window.scrollY > 60
+            ? "rgba(255,255,255,0.04)"
+            : "rgba(255,255,255,0.08)";
+      });
+      // LIGHTBOX
+      document.querySelectorAll(".gallery-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          const img = item.querySelector("img");
+          const caption =
+            item.closest('[class*="gallery"]')?.nextElementSibling
+              ?.textContent || "";
+          document.getElementById("lb-img").src = img ? img.src : "";
+          document.getElementById("lb-img").alt = img ? img.alt : "";
+          document.getElementById("lb-caption").textContent = caption;
+          document.getElementById("lb").classList.add("open");
+          document.body.style.overflow = "hidden";
+        });
+      });
+      function closeLB() {
+        document.getElementById("lb").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function closeLBOutside(e) {
+        if (e.target === document.getElementById("lb")) closeLB();
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLB();
+      });
+    </script>
+    <!-- LIGHTBOX -->
+    <div class="lb-overlay" id="lb" onclick="closeLBOutside(event)">
+      <button class="lb-close" onclick="closeLB()" aria-label="Fechar">
+        &#x2715;
+      </button>
+      <div class="lb-box">
+        <img id="lb-img" src="" alt="" />
+        <p class="lb-caption" id="lb-caption"></p>
+      </div>
+    </div>
+  </body>
+</html>

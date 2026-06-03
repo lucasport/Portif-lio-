@@ -1,0 +1,2297 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <link rel="icon" type="image/png" href="assets/#FF007F.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lucas Mendes — Portfólio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .about-left {
+          flex-direction: row;
+          align-items: center;
+          gap: 1.5rem;
+        }
+        .about-socials {
+          flex-direction: row;
+        }
+        a.proj-card.featured {
+          grid-template-columns: 1.4fr 1fr;
+        }
+      }
+      /* ============================================================
+     🎨 PALETA DE CORES — EDITE AQUI PARA MUDAR O TEMA GLOBAL
+     ============================================================ */
+      :root {
+        /* --- Fundos --- */
+        --bg: #d6d6d6; /* fundo principal (mais escuro) */
+        --bg2: #d6d6d6; /* fundo cards */
+        --bg3: #d6d6d6; /* fundo elementos UI (tabs, etc.) */
+
+        /* --- Textos --- */
+        --text: #000000; /* texto principal */
+        --muted: #2e2e2e; /* texto secundário / labels */
+
+        /* --- Acento Engenharia (vermelho) --- */
+        --accent: #e8432a; /* cor principal engenharia */
+        --accent2: #ff7c5c; /* versão mais clara (tags, hovers) */
+
+        /* --- Acento Pitaya Design (rosa) --- */
+        --pitaya: #c9427a; /* cor principal pitaya */
+        --pitaya2: #ff5da0; /* versão mais clara (tags, hovers) */
+
+        /* --- Estrutura --- */
+        --border: rgba(54, 54, 54, 0.08); /* bordas sutis */
+        --border-hover: rgba(0, 0, 0, 0.15); /* bordas ao hover */
+
+        /* --- Tipografia --- */
+        --font-head: "Syne", sans-serif; /* títulos */
+        --font-body: "DM Sans", sans-serif; /* corpo */
+
+        /* --- Orbs hero (blur decorativo) --- */
+        --orb-eng1: #e8432a; /* orb 1 da hero de engenharia */
+        --orb-eng2: #f5a623; /* orb 2 da hero de engenharia */
+        --orb-pit1: #c9427a; /* orb 1 da hero pitaya */
+        --orb-pit2: #7b5ea7; /* orb 2 da hero pitaya */
+      }
+      /* ============================================================ */
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* CUSTOM CURSOR */
+      #cursor {
+        width: 12px;
+        height: 12px;
+        background: var(--accent);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition:
+          transform 0.15s ease,
+          background 0.2s ease;
+      }
+      #cursor-follower {
+        width: 36px;
+        height: 36px;
+        border: 1px solid rgba(49, 49, 49, 0.5);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transition:
+          left 0.08s ease,
+          top 0.08s ease,
+          transform 0.2s ease,
+          border-color 0.2s;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 3rem;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* ----------------------------------------------------------
+     🖼️ LOGO NA NAVBAR
+     Troque o src="..." pelo caminho da sua imagem.
+     Exemplos:
+       src="logo.png"           → imagem na mesma pasta
+       src="assets/logo.svg"   → pasta assets
+       src="https://..."        → URL externa
+     O tamanho máximo já está definido abaixo (max-height: 36px).
+  ---------------------------------------------------------- */
+      .nav-logo img {
+        max-height: 36px; /* altura máxima do logo — ajuste aqui */
+        width: auto; /* largura proporcional automática */
+        display: block;
+        object-fit: contain;
+      }
+      /* Fallback: se a imagem não carregar, aparece texto */
+      .nav-logo-fallback {
+        font-family: var(--font-head);
+        font-weight: 800;
+        font-size: 1.1rem;
+        letter-spacing: -0.02em;
+        color: var(--text);
+        text-decoration: none;
+        display: none; /* fica oculto quando imagem existe */
+      }
+      .nav-logo img[data-error="true"] + .nav-logo-fallback {
+        display: block;
+      }
+
+      .nav-logo {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 0.85rem;
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      /* TABS */
+      .tab-container {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: var(--bg3);
+        padding: 4px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+      }
+      .tab-btn {
+        font-family: var(--font-body);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        padding: 0.45rem 1.1rem;
+        border-radius: 999px;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        transition: all 0.25s ease;
+      }
+      .tab-btn.active-eng {
+        background: var(--accent);
+        color: #fff;
+      }
+      .tab-btn.active-pit {
+        background: var(--pitaya);
+        color: #fff;
+      }
+
+      /* HERO */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 3rem 4rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+      .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.18;
+        animation: float 8s ease-in-out infinite;
+      }
+      .hero-orb.eng1 {
+        width: 500px;
+        height: 500px;
+        background: var(--orb-eng1);
+        top: -100px;
+        right: -100px;
+      }
+      .hero-orb.eng2 {
+        width: 300px;
+        height: 300px;
+        background: var(--orb-eng2);
+        bottom: 100px;
+        left: 200px;
+        animation-delay: -3s;
+      }
+      .hero-orb.pit1 {
+        width: 500px;
+        height: 500px;
+        background: var(--orb-pit1);
+        top: -100px;
+        right: -100px;
+      }
+      .hero-orb.pit2 {
+        width: 300px;
+        height: 300px;
+        background: var(--orb-pit2);
+        bottom: 100px;
+        left: 200px;
+        animation-delay: -3s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(-30px) scale(1.05);
+        }
+      }
+
+      .hero-eyebrow {
+        font-size: 0.78rem;
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.8s ease forwards 0.2s;
+      }
+      .hero-title {
+        font-family: var(--font-head);
+        font-weight: 800;
+        font-size: clamp(3.5rem, 8vw, 7rem);
+        line-height: 0.92;
+        letter-spacing: -0.04em;
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 0.9s ease forwards 0.4s;
+      }
+      .hero-title .line2 {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .hero-title .accent-word {
+        position: relative;
+        display: inline-block;
+      }
+      .hero-title .accent-word::after {
+        content: "";
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: var(--accent);
+        z-index: -1;
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: slideIn 0.6s ease forwards 1.2s;
+      }
+      .hero-title .pitaya-word::after {
+        background: var(--pitaya);
+      }
+      @keyframes slideIn {
+        to {
+          transform: scaleX(1);
+        }
+      }
+
+      .hero-meta {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-top: 3rem;
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.8s ease forwards 0.8s;
+      }
+      .hero-desc {
+        max-width: 380px;
+        font-size: 1rem;
+        font-weight: 300;
+        line-height: 1.7;
+        color: rgba(37, 37, 37, 0.65);
+      }
+      .hero-cta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.85rem 1.8rem;
+        background: var(--accent);
+        color: #fff;
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        border: none;
+        border-radius: 999px;
+        text-decoration: none;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(232, 67, 42, 0.35);
+      }
+      .btn-primary.pitaya-btn {
+        background: var(--pitaya);
+      }
+      .btn-primary.pitaya-btn:hover {
+        box-shadow: 0 12px 30px rgba(201, 66, 122, 0.35);
+      }
+
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.85rem 1.8rem;
+        background: transparent;
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 400;
+        letter-spacing: 0.03em;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        text-decoration: none;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .btn-outline:hover {
+        border-color: var(--border-hover);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        right: 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 1;
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards 1.4s;
+      }
+      .scroll-indicator span {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+        writing-mode: vertical-rl;
+      }
+      .scroll-line {
+        width: 1px;
+        height: 60px;
+        background: var(--border);
+        position: relative;
+        overflow: hidden;
+      }
+      .scroll-line::after {
+        content: "";
+        position: absolute;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--accent);
+        animation: scrollDown 1.8s ease infinite;
+      }
+      @keyframes scrollDown {
+        0% {
+          top: -100%;
+        }
+        100% {
+          top: 100%;
+        }
+      }
+
+      /* PAGES */
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+      }
+
+      /* SECTIONS */
+      section {
+        padding: 6rem 3rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-label {
+        font-size: 0.72rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 3rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .section-label::before {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 1px;
+        background: var(--muted);
+      }
+
+      /* PROJECT GRID */
+      .proj-card.span2 {
+        grid-column: span 2;
+      }
+
+      .proj-card {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--bg2);
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        transition:
+          border-color 0.35s,
+          transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+          box-shadow 0.35s;
+        transform-style: preserve-3d;
+      }
+
+      a.proj-card.featured {
+        display: grid !important;
+        grid-template-columns: 1fr;
+        grid-column: 1 / -1;
+        text-decoration: none;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        background: var(--bg2);
+        transition: border-color 0.2s;
+      }
+
+      .proj-card:hover {
+        border-color: var(--border-hover);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      .proj-card:not(.span2) .card-img {
+        aspect-ratio: 4/3;
+      }
+      .proj-card.span2 .card-img {
+        aspect-ratio: 16/7;
+      }
+
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
+      .project-card {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--bg2);
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        transition:
+          border-color 0.35s,
+          transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+          box-shadow 0.35s;
+        transform-style: preserve-3d;
+      }
+      .project-card:hover {
+        border-color: var(--border-hover);
+        transform: translateY(-4px);
+      }
+      .project-card.featured {
+        grid-column: span 2;
+      }
+
+      .proj-card:hover .card-img img {
+        transform: scale(1.06);
+        filter: brightness(0.95) saturate(1.05);
+      }
+      .card-img {
+        overflow: hidden;
+        background: #f5f5f5;
+        min-height: 220px;
+      }
+      .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+      }
+      .card-visual {
+        width: 100%;
+        aspect-ratio: 16/9;
+        position: relative;
+        overflow: hidden;
+      }
+      .card-visual.featured-visual {
+        aspect-ratio: 21/9;
+      }
+
+      .card-body {
+        padding: 1.5rem;
+      }
+
+      .card-tag {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.3rem 0.8rem;
+        border-radius: 999px;
+        margin-bottom: 0.75rem;
+      }
+      .tag-eng {
+        background: rgba(232, 67, 42, 0.15);
+        color: var(--accent2);
+      }
+      .tag-brand {
+        background: rgba(201, 66, 122, 0.15);
+        color: var(--pitaya2);
+      }
+      .tag-ui {
+        background: rgba(91, 141, 247, 0.15);
+        color: #8bb4ff;
+      }
+      .tag-motion {
+        background: rgba(91, 200, 150, 0.15);
+        color: #7dd4b0;
+      }
+
+      .card-title {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 1.1rem;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.5rem;
+      }
+      .card-desc {
+        font-size: 0.85rem;
+        font-weight: 300;
+        line-height: 1.6;
+        color: rgba(0, 0, 0, 0.55);
+        margin-bottom: 1rem;
+      }
+      .card-link {
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        color: var(--muted);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: color 0.2s;
+      }
+      .card-link svg {
+        transition: transform 0.2s;
+      }
+      .card-link:hover svg {
+        transform: translate(3px, -3px);
+      }
+
+      .elec-visual {
+        width: 100%;
+        height: 100%;
+        background: #0d1117;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ABOUT */
+      /* ── SOBRE: foto circular ───────────────────────── */
+
+      .about-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+      }
+
+      .about-photo-wrap {
+        padding: 4px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.04),
+          0 8px 32px rgba(0, 0, 0, 0.5);
+      }
+
+      .about-photo {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: var(--bg3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .about-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .about-photo-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        color: var(--muted);
+      }
+
+      /* ── SOBRE: botões de redes sociais ─────────────── */
+      .about-socials {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        align-items: center;
+      }
+
+      .social-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        text-decoration: none;
+        transition:
+          border-color 0.25s,
+          color 0.25s,
+          box-shadow 0.25s,
+          transform 0.25s;
+      }
+
+      .social-btn:hover {
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        transform: translateY(-2px);
+      }
+
+      /* WhatsApp — acento verde sutil no hover */
+      .social-btn--wpp:hover {
+        border-color: rgba(37, 211, 102, 0.35);
+        color: #25d366;
+        box-shadow: 0 4px 16px rgba(37, 211, 102, 0.12);
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 3rem;
+        align-items: start;
+      }
+      .about-text h2 {
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 2.2rem;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+      }
+      .about-text p {
+        font-size: 0.95rem;
+        font-weight: 300;
+        line-height: 1.8;
+        color: rgba(0, 0, 0, 0.65);
+        margin-bottom: 1rem;
+      }
+      .skills-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+      .skill-pill {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.9rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--muted);
+        letter-spacing: 0.03em;
+      }
+
+      /* CONTACT */
+      .contact-strip {
+        border-top: 1px solid var(--border);
+        padding: 5rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .contact-title {
+        font-family: var(--font-head);
+        font-weight: 800;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        letter-spacing: -0.04em;
+        line-height: 1;
+      }
+
+      /* FOOTER */
+      footer {
+        padding: 2rem 3rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-weight: 300;
+      }
+
+      /* REVEAL */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal:nth-child(2) {
+        transition-delay: 0.1s;
+      }
+      .reveal:nth-child(3) {
+        transition-delay: 0.2s;
+      }
+      .reveal:nth-child(4) {
+        transition-delay: 0.3s;
+      }
+
+      /* ── SKIP LINK ───────────────────────────────────── */
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        z-index: 10000;
+        padding: 0.75rem 1.5rem;
+        background: var(--text);
+        color: var(--bg);
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 500;
+        border-radius: 0 0 8px 8px;
+        text-decoration: none;
+        transition: top 0.2s;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+
+      /* ── FOCUS VISIBLE ────────────────────────────────── */
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .tab-btn:focus-visible,
+      .filter-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ── REDUCED MOTION ───────────────────────────────── */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+        .project-card:hover {
+          transform: none;
+        }
+      }
+
+      /* ── HAMBURGER MENU ───────────────────────────────── */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        z-index: 101;
+      }
+      .hamburger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--text);
+        border-radius: 1px;
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      /* ── SOCIAL BUTTONS TOUCH ─────────────────────────── */
+      .social-btn {
+        width: 44px;
+        height: 44px;
+      }
+
+      /* ── FIXED NAV OFFSET ─────────────────────────────── */
+      section[id] {
+        scroll-margin-top: 5rem;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        nav {
+          padding: 1rem 1.25rem;
+          gap: 0.75rem;
+          flex-wrap: wrap;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(12px);
+          padding: 1rem 1.25rem;
+          gap: 0.5rem;
+          border-bottom: 1px solid var(--border);
+        }
+        .nav-links.open {
+          display: flex;
+        }
+        .tab-btn {
+          font-size: 0.7rem;
+          padding: 0.4rem 0.8rem;
+        }
+        .hero {
+          padding: 0 1.25rem 3rem;
+        }
+        section {
+          padding: 4rem 1.25rem;
+        }
+        .project-grid {
+          grid-template-columns: 1fr;
+        }
+        .project-card.featured {
+          grid-column: span 1;
+        }
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .contact-strip {
+          flex-direction: column;
+          gap: 2rem;
+          align-items: flex-start;
+          padding: 3rem 1.25rem;
+        }
+        footer {
+          padding: 1.5rem 1.25rem;
+        }
+        .nav-logo img {
+          max-height: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <!-- =====================================================
+     NAV
+===================================================== -->
+    <nav>
+      <!--
+    🖼️ LOGO: substitua o src abaixo pelo caminho da sua imagem.
+    O atributo alt é o texto alternativo (acessibilidade).
+    Se a imagem não carregar, o texto "Lucas." aparece no lugar.
+  -->
+      <a class="nav-logo" href="#">
+        <img
+          src="SEU-LOGO-AQUI.png"
+          alt="Lucas Mendes"
+          onerror="
+            this.style.display = 'none';
+            this.nextElementSibling.style.display = 'block';
+          "
+        />
+        <span
+          class="nav-logo-fallback"
+          style="
+            font-family: var(--font-head);
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+            color: var(--text);
+          "
+        >
+          Lucas<span style="color: var(--accent)">.</span>
+        </span>
+      </a>
+
+      <ul class="nav-links">
+        <li>
+          <a href="projetos.html">Projetos</a>
+        </li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li>
+          <a href="https://wa.me/5535998713343" target="_blank">Contato</a>
+        </li>
+      </ul>
+
+      <div class="tab-container" role="tablist">
+        <button
+          class="tab-btn active-eng"
+          id="tab-eng"
+          role="tab"
+          aria-selected="true"
+          aria-controls="page-eng"
+          onclick="switchTab('eng')"
+        >
+          ⚡ Engenharia
+        </button>
+        <button
+          class="tab-btn"
+          id="tab-pit"
+          role="tab"
+          aria-selected="false"
+          aria-controls="page-pit"
+          onclick="switchTab('pit')"
+        >
+          ✦ Pitaya Studio
+        </button>
+      </div>
+
+      <button class="hamburger" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+
+    <!-- =====================================================
+     PÁGINA: ENGENHARIA
+===================================================== -->
+    <main id="main-content">
+      <div
+        id="page-eng"
+        class="page active"
+        role="tabpanel"
+        aria-labelledby="tab-eng"
+      >
+        <div class="hero">
+          <div class="hero-bg">
+            <div class="hero-grid"></div>
+            <div class="hero-orb eng1"></div>
+            <div class="hero-orb eng2"></div>
+          </div>
+          <div class="hero-eyebrow">Lucas Mendes — Engenheiro de Software</div>
+          <h1 class="hero-title">
+            Projetos<br />
+            <div class="line2">
+              <span class="accent-word">Elétricos</span>
+              <span
+                style="
+                  font-weight: 300;
+                  font-size: 0.5em;
+                  color: rgba(37, 37, 37, 0.4);
+                "
+                >& Soluções</span
+              >
+            </div>
+          </h1>
+          <div class="hero-meta">
+            <p class="hero-desc">
+              Projetos residenciais e comerciais com foco em segurança,
+              eficiência e documentação técnica de qualidade.
+            </p>
+            <div class="hero-cta">
+              <a
+                href="https://wa.me/5535998713343"
+                class="btn-primary"
+                target="_blank"
+                >Fale comigo ↗</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <section id="eng-projects">
+          <div class="section-label">Projetos selecionados</div>
+          <div class="project-grid">
+            <!-- CARD DESTAQUE -->
+            <a
+              class="project-card featured reveal"
+              href="projeto-eng-minas.html"
+            >
+              <div class="card-visual featured-visual">
+                <div class="elec-visual">
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 800 300"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <defs>
+                      <pattern
+                        id="circuit"
+                        x="0"
+                        y="0"
+                        width="40"
+                        height="40"
+                        patternUnits="userSpaceOnUse"
+                      >
+                        <path
+                          d="M0 20h40M20 0v40"
+                          stroke="rgba(232,67,42,0.12)"
+                          stroke-width="0.5"
+                          fill="none"
+                        />
+                        <circle
+                          cx="20"
+                          cy="20"
+                          r="2"
+                          fill="rgba(232,67,42,0.15)"
+                        />
+                      </pattern>
+                    </defs>
+                    <rect width="800" height="300" fill="url(#circuit)" />
+                    <path
+                      d="M50 150 L200 150 L200 80 L350 80 L350 150 L500 150 L500 220 L650 220 L650 150 L750 150"
+                      stroke="rgba(232,67,42,0.6)"
+                      stroke-width="2"
+                      fill="none"
+                    />
+                    <path
+                      d="M200 150 L200 220 L350 220 L350 150"
+                      stroke="rgba(245,166,35,0.5)"
+                      stroke-width="1.5"
+                      fill="none"
+                    />
+                    <circle
+                      cx="200"
+                      cy="150"
+                      r="6"
+                      fill="#e8432a"
+                      opacity="0.9"
+                    />
+                    <circle
+                      cx="350"
+                      cy="150"
+                      r="6"
+                      fill="#e8432a"
+                      opacity="0.9"
+                    />
+                    <circle
+                      cx="500"
+                      cy="150"
+                      r="6"
+                      fill="#e8432a"
+                      opacity="0.9"
+                    />
+                    <circle
+                      cx="650"
+                      cy="150"
+                      r="6"
+                      fill="#f5a623"
+                      opacity="0.9"
+                    />
+                    <text
+                      x="200"
+                      y="68"
+                      fill="rgba(232,67,42,0.8)"
+                      font-family="DM Sans,sans-serif"
+                      font-size="10"
+                      text-anchor="middle"
+                    >
+                      Q.D. Principal
+                    </text>
+                    <text
+                      x="500"
+                      y="110"
+                      fill="rgba(245,166,35,0.8)"
+                      font-family="DM Sans,sans-serif"
+                      font-size="10"
+                      text-anchor="middle"
+                    >
+                      Tomadas
+                    </text>
+                    <text
+                      x="650"
+                      y="138"
+                      fill="rgba(245,166,35,0.8)"
+                      font-family="DM Sans,sans-serif"
+                      font-size="10"
+                      text-anchor="middle"
+                    >
+                      Iluminação
+                    </text>
+                    <text
+                      x="400"
+                      y="175"
+                      fill="rgba(232,67,42,0.3)"
+                      font-size="80"
+                      text-anchor="middle"
+                    >
+                      ⚡
+                    </text>
+                    <circle
+                      cx="200"
+                      cy="150"
+                      r="6"
+                      fill="none"
+                      stroke="rgba(232,67,42,0.4)"
+                      stroke-width="1"
+                    >
+                      <animate
+                        attributeName="r"
+                        from="6"
+                        to="20"
+                        dur="2s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="opacity"
+                        from="0.8"
+                        to="0"
+                        dur="2s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                    <circle
+                      cx="500"
+                      cy="150"
+                      r="6"
+                      fill="none"
+                      stroke="rgba(232,67,42,0.4)"
+                      stroke-width="1"
+                    >
+                      <animate
+                        attributeName="r"
+                        from="6"
+                        to="20"
+                        dur="2s"
+                        begin="0.7s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="opacity"
+                        from="0.8"
+                        to="0"
+                        dur="2s"
+                        begin="0.7s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag tag-eng">Residencial</span>
+                <h3 class="card-title">
+                  Projeto Elétrico Residencial — Distribuição e Cabeamento
+                </h3>
+                <p class="card-desc">
+                  Planejamento elétrico completo para residência unifamiliar:
+                  cálculo de carga, distribuição de circuitos e documentação
+                  técnica conforme ABNT NBR 5410.
+                </p>
+                <span class="card-link"
+                  >Ver projeto
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 10L10 2M10 2H4M10 2V8"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    /></svg
+                ></span>
+              </div>
+            </a>
+
+            <!-- CARD 2 -->
+            <a class="project-card reveal" href="projeto-eng-galpao.html">
+              <div class="card-visual">
+                <div class="elec-visual">
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 400 225"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <defs>
+                      <pattern
+                        id="grid2"
+                        x="0"
+                        y="0"
+                        width="25"
+                        height="25"
+                        patternUnits="userSpaceOnUse"
+                      >
+                        <path
+                          d="M0 12.5h25M12.5 0v25"
+                          stroke="rgba(245,166,35,0.1)"
+                          stroke-width="0.5"
+                          fill="none"
+                        />
+                      </pattern>
+                    </defs>
+                    <rect width="400" height="225" fill="url(#grid2)" />
+                    <rect
+                      x="40"
+                      y="40"
+                      width="320"
+                      height="145"
+                      stroke="rgba(255,255,255,0.15)"
+                      stroke-width="1"
+                      fill="none"
+                    />
+                    <line
+                      x1="160"
+                      y1="40"
+                      x2="160"
+                      y2="185"
+                      stroke="rgba(255,255,255,0.1)"
+                      stroke-width="1"
+                    />
+                    <line
+                      x1="40"
+                      y1="120"
+                      x2="160"
+                      y2="120"
+                      stroke="rgba(255,255,255,0.1)"
+                      stroke-width="1"
+                    />
+                    <circle
+                      cx="100"
+                      cy="80"
+                      r="8"
+                      fill="none"
+                      stroke="rgba(245,166,35,0.7)"
+                      stroke-width="1.5"
+                    />
+                    <circle
+                      cx="100"
+                      cy="80"
+                      r="2"
+                      fill="rgba(245,166,35,0.7)"
+                    />
+                    <circle
+                      cx="280"
+                      cy="100"
+                      r="8"
+                      fill="none"
+                      stroke="rgba(245,166,35,0.7)"
+                      stroke-width="1.5"
+                    />
+                    <circle
+                      cx="280"
+                      cy="100"
+                      r="2"
+                      fill="rgba(245,166,35,0.7)"
+                    />
+                    <circle
+                      cx="280"
+                      cy="160"
+                      r="8"
+                      fill="none"
+                      stroke="rgba(245,166,35,0.7)"
+                      stroke-width="1.5"
+                    />
+                    <circle
+                      cx="280"
+                      cy="160"
+                      r="2"
+                      fill="rgba(245,166,35,0.7)"
+                    />
+                    <rect
+                      x="135"
+                      y="145"
+                      width="16"
+                      height="10"
+                      rx="2"
+                      fill="none"
+                      stroke="rgba(232,67,42,0.6)"
+                      stroke-width="1.5"
+                    />
+                    <line
+                      x1="139"
+                      y1="148"
+                      x2="139"
+                      y2="152"
+                      stroke="rgba(232,67,42,0.6)"
+                      stroke-width="1"
+                    />
+                    <line
+                      x1="147"
+                      y1="148"
+                      x2="147"
+                      y2="152"
+                      stroke="rgba(232,67,42,0.6)"
+                      stroke-width="1"
+                    />
+                    <text
+                      x="200"
+                      y="215"
+                      fill="rgba(255,255,255,0.2)"
+                      font-family="DM Sans,sans-serif"
+                      font-size="9"
+                      text-anchor="middle"
+                      letter-spacing="2"
+                    >
+                      PLANTA ELÉTRICA
+                    </text>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag tag-eng">Comercial</span>
+                <h3 class="card-title">
+                  Layout Elétrico Comercial — Iluminação e Tomadas
+                </h3>
+                <p class="card-desc">
+                  Projeto para Galpão comercial com layout de iluminação,
+                  distribuiçaõ de tomadas e roteamento de cabos.
+                </p>
+                <span class="card-link"
+                  >Ver projeto
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 10L10 2M10 2H4M10 2V8"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    /></svg
+                ></span>
+              </div>
+            </a>
+
+            <!-- CARD 3 -->
+            <a class="project-card reveal" href="projeto-eng-industrial.html">
+              <div class="card-visual">
+                <div class="elec-visual" style="background: #060d0a">
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 400 225"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <defs>
+                      <marker
+                        id="arrowG"
+                        viewBox="0 0 10 10"
+                        refX="8"
+                        refY="5"
+                        markerWidth="5"
+                        markerHeight="5"
+                        orient="auto"
+                      >
+                        <path
+                          d="M2 1L8 5L2 9"
+                          stroke="rgba(100,200,130,0.8)"
+                          stroke-width="1.5"
+                          fill="none"
+                        />
+                      </marker>
+                      <marker
+                        id="arrowY"
+                        viewBox="0 0 10 10"
+                        refX="8"
+                        refY="5"
+                        markerWidth="5"
+                        markerHeight="5"
+                        orient="auto"
+                      >
+                        <path
+                          d="M2 1L8 5L2 9"
+                          stroke="rgba(245,166,35,0.8)"
+                          stroke-width="1.5"
+                          fill="none"
+                        />
+                      </marker>
+                    </defs>
+                    <text
+                      x="200"
+                      y="40"
+                      fill="rgba(100,200,130,0.5)"
+                      font-family="DM Sans"
+                      font-size="9"
+                      text-anchor="middle"
+                      letter-spacing="2"
+                    ></text>
+                    <rect
+                      x="30"
+                      y="60"
+                      width="50"
+                      height="30"
+                      rx="3"
+                      fill="none"
+                      stroke="rgba(100,200,130,0.6)"
+                      stroke-width="1.5"
+                    />
+                    <line
+                      x1="30"
+                      y1="75"
+                      x2="80"
+                      y2="75"
+                      stroke="rgba(100,200,130,0.3)"
+                      stroke-width="0.5"
+                    />
+                    <line
+                      x1="50"
+                      y1="60"
+                      x2="50"
+                      y2="90"
+                      stroke="rgba(100,200,130,0.3)"
+                      stroke-width="0.5"
+                    />
+                    <line
+                      x1="65"
+                      y1="60"
+                      x2="65"
+                      y2="90"
+                      stroke="rgba(100,200,130,0.3)"
+                      stroke-width="0.5"
+                    />
+                    <rect
+                      x="90"
+                      y="60"
+                      width="50"
+                      height="30"
+                      rx="3"
+                      fill="none"
+                      stroke="rgba(100,200,130,0.6)"
+                      stroke-width="1.5"
+                    />
+                    <line
+                      x1="90"
+                      y1="75"
+                      x2="140"
+                      y2="75"
+                      stroke="rgba(100,200,130,0.3)"
+                      stroke-width="0.5"
+                    />
+                    <line
+                      x1="110"
+                      y1="60"
+                      x2="110"
+                      y2="90"
+                      stroke="rgba(100,200,130,0.3)"
+                      stroke-width="0.5"
+                    />
+                    <line
+                      x1="125"
+                      y1="60"
+                      x2="125"
+                      y2="90"
+                      stroke="rgba(100,200,130,0.3)"
+                      stroke-width="0.5"
+                    />
+                    <text
+                      x="85"
+                      y="55"
+                      fill="rgba(100,200,130,0.6)"
+                      font-family="DM Sans"
+                      font-size="8"
+                      text-anchor="middle"
+                    ></text>
+                    <path
+                      d="M140 75 L180 75 L180 112"
+                      stroke="rgba(100,200,130,0.5)"
+                      stroke-width="1.5"
+                      fill="none"
+                      marker-end="url(#arrowG)"
+                    />
+                    <rect
+                      x="155"
+                      y="112"
+                      width="50"
+                      height="30"
+                      rx="4"
+                      fill="rgba(100,200,130,0.1)"
+                      stroke="rgba(100,200,130,0.6)"
+                      stroke-width="1.5"
+                    />
+                    <text
+                      x="180"
+                      y="131"
+                      fill="rgba(100,200,130,0.8)"
+                      font-family="DM Sans"
+                      font-size="9"
+                      text-anchor="middle"
+                    ></text>
+                    <path
+                      d="M205 127 L280 127 L280 160"
+                      stroke="rgba(245,166,35,0.5)"
+                      stroke-width="1.5"
+                      fill="none"
+                      marker-end="url(#arrowY)"
+                    />
+                    <rect
+                      x="255"
+                      y="160"
+                      width="50"
+                      height="30"
+                      rx="4"
+                      fill="rgba(245,166,35,0.1)"
+                      stroke="rgba(245,166,35,0.5)"
+                      stroke-width="1.5"
+                    />
+                    <text
+                      x="280"
+                      y="179"
+                      fill="rgba(245,166,35,0.8)"
+                      font-family="DM Sans"
+                      font-size="8"
+                      text-anchor="middle"
+                    ></text>
+                    <circle cx="0" cy="0" r="4" fill="rgba(100,200,130,0.8)">
+                      <animateMotion
+                        dur="3s"
+                        repeatCount="indefinite"
+                        path="M30,75 L180,75 L180,127 L280,127 L280,175"
+                      />
+                    </circle>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag tag-eng">Fotovoltaico</span>
+                <h3 class="card-title">
+                  Dimensionamento de galpão para Industria.
+                </h3>
+                <p class="card-desc">
+                  Projeto, dimensionamento e roteamento de industria em mais de
+                  um pavimento.
+                </p>
+                <span class="card-link"
+                  >Ver projeto
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 10L10 2M10 2H4M10 2V8"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    /></svg
+                ></span>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <section id="sobre">
+          <div class="section-label">Sobre mim</div>
+          <div class="about-grid">
+            <!-- COLUNA ESQUERDA: foto + redes sociais -->
+            <div class="about-left reveal">
+              <!-- FOTO CIRCULAR
+           🖼️ Substitua o src abaixo pelo caminho da sua foto
+           Exemplo: src="imagens/lucas.jpg"
+      -->
+              <div class="about-photo-wrap">
+                <div class="about-photo">
+                  <img
+                    src="assets/PERFIL/LUCAS-MENDES.jpeg"
+                    alt="Lucas Mendes"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    "
+                  />
+                </div>
+              </div>
+
+              <!-- REDES SOCIAIS -->
+              <div class="about-socials">
+                <!-- Instagram -->
+                <a
+                  href="https://instagram.com/studio._pitaya"
+                  target="_blank"
+                  class="social-btn"
+                  aria-label="Instagram"
+                  title="Instagram"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <rect
+                      x="2"
+                      y="2"
+                      width="20"
+                      height="20"
+                      rx="5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="4"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+                  </svg>
+                </a>
+
+                <!-- LinkedIn -->
+                <a
+                  href="https://www.linkedin.com/in/lucas-m-4a8585bb"
+                  target="_blank"
+                  class="social-btn"
+                  aria-label="LinkedIn"
+                  title="LinkedIn"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <rect
+                      x="2"
+                      y="2"
+                      width="20"
+                      height="20"
+                      rx="4"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <path
+                      d="M7 10v7M7 7v.5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M11 17v-3.5c0-1.5 1-2.5 2.5-2.5S16 12 16 13.5V17"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M11 10v7"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </a>
+
+                <!-- Behance -->
+                <a
+                  href="https://www.behance.net/lucasportugal7"
+                  target="_blank"
+                  class="social-btn"
+                  aria-label="Behance"
+                  title="Behance"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M2 7h6c1.657 0 3 1.343 3 3s-1.343 3-3 3H2V7z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M2 13h7c1.657 0 3 1.343 3 3s-1.343 3-3 3H2v-6z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M15 14h7M15 10c0-1.657 1.567-3 3.5-3S22 8.343 22 10v.5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M22 14c0 1.657-1.567 3-3.5 3S15 15.657 15 14"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </a>
+
+                <!-- WhatsApp -->
+                <a
+                  href="https://wa.me/5535998713343"
+                  target="_blank"
+                  class="social-btn social-btn--wpp"
+                  aria-label="WhatsApp"
+                  title="WhatsApp"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.42A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M8.5 9.5c.5 1 1.5 2.5 3 3.5 1 .667 2 1 3 1"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- COLUNA DIREITA: texto -->
+            <div class="about-text reveal">
+              <h2>Engenheiro que pensa além do projeto.</h2>
+              <p>
+                Sou Lucas Mendes, engenheiro elétrico com foco em projetos
+                residenciais e comerciais — da concepção ao detalhamento
+                técnico, sempre dentro das normas ABNT.
+              </p>
+              <p>
+                Além da engenharia, fundei a
+                <strong style="color: var(--pitaya2)">Pitaya Design</strong>
+                para explorar a interseção entre técnica e estética: branding,
+                identidade visual e design de comunicação.
+              </p>
+              <div class="skills-list">
+                <span class="skill-pill">ABNT NBR 5410</span>
+                <span class="skill-pill">AutoCAD Elétrico</span>
+                <span class="skill-pill">Dimensionamento de cargas</span>
+                <span class="skill-pill">Laudos técnicos</span>
+                <span class="skill-pill">Photoshop</span>
+                <span class="skill-pill">Illustrator</span>
+                <span class="skill-pill">Figma</span>
+                <span class="skill-pill">GitHub</span>
+                <span class="skill-pill">IA</span>
+              </div>
+            </div>
+
+            <!-- COLUNA MÉTRICAS -->
+            <div
+              class="reveal"
+              style="display: flex; flex-direction: column; gap: 1rem"
+            >
+              <div
+                style="
+                  background: var(--bg2);
+                  border: 1px solid var(--border);
+                  border-radius: 12px;
+                  padding: 1.5rem;
+                "
+              >
+                <div
+                  style="
+                    font-family: var(--font-head);
+                    font-size: 2.5rem;
+                    font-weight: 800;
+                    color: var(--accent);
+                    line-height: 1;
+                  "
+                >
+                  20+
+                </div>
+                <div
+                  style="
+                    font-size: 0.82rem;
+                    color: var(--muted);
+                    margin-top: 0.25rem;
+                  "
+                >
+                  Projetos entregues
+                </div>
+              </div>
+              <div
+                style="
+                  background: var(--bg2);
+                  border: 1px solid var(--border);
+                  border-radius: 12px;
+                  padding: 1.5rem;
+                "
+              >
+                <div
+                  style="
+                    font-family: var(--font-head);
+                    font-size: 2.5rem;
+                    font-weight: 800;
+                    color: var(--accent);
+                    line-height: 1;
+                  "
+                >
+                  100%
+                </div>
+                <div
+                  style="
+                    font-size: 0.82rem;
+                    color: var(--muted);
+                    margin-top: 0.25rem;
+                  "
+                >
+                  Em conformidade com a ABNT
+                </div>
+              </div>
+              <div
+                style="
+                  background: var(--bg2);
+                  border: 1px solid var(--border);
+                  border-radius: 12px;
+                  padding: 1.5rem;
+                "
+              >
+                <div
+                  style="
+                    font-family: var(--font-head);
+                    font-size: 2.5rem;
+                    font-weight: 800;
+                    color: var(--pitaya2);
+                    line-height: 1;
+                  "
+                >
+                  2in1
+                </div>
+                <div
+                  style="
+                    font-size: 0.82rem;
+                    color: var(--muted);
+                    margin-top: 0.25rem;
+                  "
+                >
+                  Engenharia + Design
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="contact-strip reveal">
+          <div>
+            <div class="section-label" style="margin-bottom: 1rem">
+              Vamos conversar?
+            </div>
+            <h2 class="contact-title">Tem um projeto<br />em mente?</h2>
+          </div>
+          <a
+            href="https://wa.me/5535998713343"
+            class="btn-primary"
+            target="_blank"
+            style="font-size: 1rem; padding: 1rem 2rem"
+            >Chamar no WhatsApp ↗</a
+          >
+        </div>
+      </div>
+      <!-- /page-eng -->
+
+      <!-- =====================================================
+     PÁGINA: PITAYA DESIGN
+===================================================== -->
+      <div id="page-pit" class="page" role="tabpanel" aria-labelledby="tab-pit">
+        <div class="hero">
+          <div class="hero-bg">
+            <div
+              class="hero-grid"
+              style="
+                background-image:
+                  linear-gradient(
+                    rgba(201, 66, 122, 0.06) 1px,
+                    transparent 1px
+                  ),
+                  linear-gradient(
+                    90deg,
+                    rgba(201, 66, 122, 0.06) 1px,
+                    transparent 1px
+                  );
+                background-size: 60px 60px;
+              "
+            ></div>
+            <div class="hero-orb pit1"></div>
+            <div class="hero-orb pit2"></div>
+          </div>
+          <div class="hero-eyebrow">
+            Pitaya Design Studio — por Lucas Mendes
+          </div>
+          <h1 class="hero-title">
+            Identidade<br />
+            <div class="line2">
+              <span
+                class="accent-word pitaya-word"
+                style="color: var(--pitaya2)"
+                >Visual</span
+              >
+              <span
+                style="font-weight: 300; font-size: 0.5em; color: var(--pitaya)"
+                >& Branding</span
+              >
+            </div>
+          </h1>
+          <div class="hero-meta">
+            <p class="hero-desc">
+              Criação de marcas com caráter. Do conceito ao sistema visual
+              completo — estratégia, logo, cores, tipografia e aplicações.
+            </p>
+            <div class="hero-cta">
+              <a
+                href="https://wa.me/5535998713343"
+                class="btn-primary pitaya-btn"
+                target="_blank"
+                >Briefing ↗</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <section id="pit-projects">
+          <div class="section-label">Projetos de branding</div>
+          <div class="project-grid">
+            <a
+              class="proj-card featured span2 reveal"
+              href="projeto-pitayabrand.html"
+            >
+              <div class="card-img">
+                <img
+                  src="assets/PITAYA-ASSETS/cover-pitaya.png"
+                  alt="Pitaya Brand"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <div class="card-body">
+                <span class="card-tag tag-brand">Branding</span>
+                <h3 class="card-title">
+                  Pitaya Studio — Identidade Visual Completa
+                </h3>
+                <p class="card-desc">
+                  Sistema de identidade para Estudio de Design especializada:
+                  logo, paleta de cores, tipografia editorial e aplicações em
+                  embalagem, papelaria e sinalização.
+                </p>
+                <span class="card-link">
+                  Ver projeto
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 10L10 2M10 2H4M10 2V8"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </a>
+            <a
+              class="proj-card featured span2 reveal"
+              href="projeto-criativos.html"
+            >
+              <div class="card-img">
+                <img
+                  src="assets/CRIATIVOS-ASSETS/cover-criativos.jpg"
+                  alt="Criativos"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+              <div class="card-body">
+                <span class="card-tag tag-brand">Media Design</span>
+                <h3 class="card-title">Social Media Design Collection</h3>
+                <p class="card-desc">
+                  Coleção de criativos desenvolvidos para redes sociais,
+                  campanhas patrocinadas e comunicação digital. Projetos focados
+                  em branding, posicionamento de marca, performance e construção
+                  de autoridade para diferentes segmentos de mercado.
+                </p>
+                <span class="card-link">
+                  Ver projeto
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 10L10 2M10 2H4M10 2V8"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <div class="contact-strip reveal">
+          <div>
+            <div class="section-label" style="margin-bottom: 1rem">
+              Pitaya Design
+            </div>
+            <h2 class="contact-title">Sua marca<br />merece mais.</h2>
+          </div>
+          <a
+            href="https://wa.me/5535998713343"
+            class="btn-primary pitaya-btn"
+            target="_blank"
+            style="font-size: 1rem; padding: 1rem 2rem"
+            >Falar sobre projeto ↗</a
+          >
+        </div>
+      </div>
+      <!-- /page-pit -->
+    </main>
+
+    <footer>
+      <span>© 2026 Lucas Mendes</span>
+      <span
+        id="footer-studio"
+        style="color: var(--pitaya); font-weight: 500; display: none"
+        >Pitaya Design Studio</span
+      >
+      <span>Passa Quatro, MG</span>
+    </footer>
+
+    <script>
+      // ── CURSOR ──────────────────────────────────────────
+      const cursor = document.getElementById("cursor");
+      const follower = document.getElementById("cursor-follower");
+      let mx = 0,
+        my = 0,
+        fx = 0,
+        fy = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        cursor.style.left = mx - 6 + "px";
+        cursor.style.top = my - 6 + "px";
+      });
+      (function animFollower() {
+        fx += (mx - fx - 18) * 0.12;
+        fy += (my - fy - 18) * 0.12;
+        follower.style.left = fx + "px";
+        follower.style.top = fy + "px";
+        requestAnimationFrame(animFollower);
+      })();
+
+      document.querySelectorAll("a,button,.project-card").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.transform = "scale(2.5)";
+          follower.style.borderColor = "transparent";
+        });
+        el.addEventListener("mouseleave", () => {
+          cursor.style.transform = "scale(1)";
+          follower.style.borderColor = "rgba(232,67,42,0.5)";
+        });
+      });
+
+      // ── TAB SWITCH ──────────────────────────────────────
+      function switchTab(tab) {
+        const isEng = tab === "eng";
+        const pageEng = document.getElementById("page-eng");
+        const pagePit = document.getElementById("page-pit");
+        const tabEng = document.getElementById("tab-eng");
+        const tabPit = document.getElementById("tab-pit");
+
+        pageEng.classList.toggle("active", isEng);
+        pagePit.classList.toggle("active", !isEng);
+
+        tabEng.className = "tab-btn" + (isEng ? " active-eng" : "");
+        tabPit.className = "tab-btn" + (!isEng ? " active-pit" : "");
+        tabEng.setAttribute("aria-selected", isEng.toString());
+        tabPit.setAttribute("aria-selected", (!isEng).toString());
+
+        document.getElementById("footer-studio").style.display = isEng
+          ? "none"
+          : "block";
+        cursor.style.background = isEng ? "var(--accent)" : "var(--pitaya)";
+        follower.style.borderColor = isEng
+          ? "rgba(232,67,42,0.5)"
+          : "rgba(201,66,122,0.5)";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(initReveal, 150);
+      }
+
+      // ── TAB KEYBOARD NAV ──────────────────────────────
+      document
+        .querySelector(".tab-container")
+        .addEventListener("keydown", (e) => {
+          const tabs = Array.from(document.querySelectorAll(".tab-btn"));
+          const current = tabs.indexOf(document.activeElement);
+          if (current === -1) return;
+          if (e.key === "ArrowRight") {
+            e.preventDefault();
+            const next = (current + 1) % tabs.length;
+            tabs[next].click();
+            tabs[next].focus();
+          }
+          if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            const prev = (current - 1 + tabs.length) % tabs.length;
+            tabs[prev].click();
+            tabs[prev].focus();
+          }
+        });
+
+      // ── HAMBURGER ─────────────────────────────────────
+      document
+        .querySelector(".hamburger")
+        .addEventListener("click", function () {
+          const navLinks = document.querySelector(".nav-links");
+          const expanded = this.getAttribute("aria-expanded") === "true";
+          this.classList.toggle("open");
+          navLinks.classList.toggle("open");
+          this.setAttribute("aria-expanded", !expanded);
+          this.setAttribute(
+            "aria-label",
+            expanded ? "Abrir menu" : "Fechar menu",
+          );
+        });
+
+      // ── SCROLL REVEAL ───────────────────────────────────
+      function initReveal() {
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+        );
+        document
+          .querySelectorAll(".page.active .reveal")
+          .forEach((el) => obs.observe(el));
+      }
+      initReveal();
+
+      // ── NAVBAR SCROLL ────────────────────────────────────
+      const nav = document.querySelector("nav");
+      window.addEventListener("scroll", () => {
+        nav.style.borderBottomColor =
+          window.scrollY > 80
+            ? "rgba(255,255,255,0.04)"
+            : "rgba(255,255,255,0.08)";
+      });
+
+      // ── CARD TILT ────────────────────────────────────────
+      document.querySelectorAll(".project-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const r = card.getBoundingClientRect();
+          const rotX = ((e.clientY - r.top - r.height / 2) / r.height) * -4;
+          const rotY = ((e.clientX - r.left - r.width / 2) / r.width) * 4;
+          card.style.transform = `translateY(-4px) perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transition = "transform 0.4s ease, border-color 0.3s";
+          card.style.transform = "";
+          setTimeout(() => (card.style.transition = ""), 400);
+        });
+      });
+    </script>
+  </body>
+</html>
